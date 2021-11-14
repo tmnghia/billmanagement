@@ -1,0 +1,12 @@
+package com.example.interfaces;
+
+import java.util.ArrayList;
+
+public interface Repository<T> {
+    boolean addItem(T item);
+    boolean removeItem(T item);
+    boolean updateItem(T oldItem, T newItem);
+    ArrayList<T> getItems();
+    boolean writeToDB();
+    boolean readFromDB();
+}
