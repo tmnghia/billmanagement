@@ -171,6 +171,11 @@ class AppTest {
         }
         if (!found)
             assertEquals(true, false);
+    }
 
+    @Test
+    void testProductDAO() {
+        ProductRepoController controller = ProductRepoController.getInstance();
+        controller.showAllItems();
     }
 }

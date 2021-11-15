@@ -30,6 +30,8 @@ public final class App {
         ProductRepoController controller = ProductRepoController.getInstance();
         System.out.println(controller);
 
+        System.out.println(controller.getItems());
+
         Product food1 = new Food(1, "food1", "description", 10000, Food.FoodType.MAIN_DISHES);
         Product drink1 = new Drink(1, "drink1", "description", 10000, Drink.DrinkType.ALCOHIC_WATERS);
         controller.addItem(food1);

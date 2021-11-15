@@ -2,14 +2,18 @@ package com.example.models;
 
 import java.util.ArrayList;
 
+import com.example.dao.ProductDAO;
 import com.example.interfaces.Repository;
 
 public class ProductRepo implements Repository<Product> {
+    final String PRODUCT_DB_NAME = "product.dat";
     private static ProductRepo instance = null;
-    ArrayList<Product> items = null;
+    // ArrayList<Product> items = null;
+    public ProductDAO dao = null;
 
     private ProductRepo() {
-        items = new ArrayList<>();
+        // items = new ArrayList<>();
+        dao = ProductDAO.getInstance(PRODUCT_DB_NAME);
     }
 
     public static ProductRepo getInstance() {
@@ -24,50 +28,22 @@ public class ProductRepo implements Repository<Product> {
     }
 
     @Override
-    public boolean addItem(Product item) {
-        for (Product product : items) {
-            if (product.equals(item)) {
-                return false;
-            }
-        }
-        items.add(item);
-
-        return true;
+    public boolean addItem(Product product) {
+        return dao.addProduct(product);
     }
 
     @Override
-    public boolean removeItem(Product removeItem) {
-        items.removeIf(item -> item.equals(removeItem));
-
-        return false;
+    public boolean removeItem(Product product) {
+        return dao.removeProduct(product);
     }
 
     @Override
     public boolean updateItem(Product oldItem, Product newItem) {
-        for (Product product : items) {
-            if (product.equals(oldItem)) {
-                removeItem(oldItem);
-                addItem(newItem);
-                return true;
-            }
-        }
-        return false;
+        return dao.updateProduct(oldItem, newItem);
     }
 
     @Override
     public ArrayList<Product> getItems() {
-        return items;
-    }
-
-    @Override
-    public boolean writeToDB() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean readFromDB() {
-        // TODO Auto-generated method stub
-        return true;
+        return dao.getProductList();
     }
 }

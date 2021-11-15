@@ -7,6 +7,4 @@ public interface Repository<T> {
     boolean removeItem(T item);
     boolean updateItem(T oldItem, T newItem);
     ArrayList<T> getItems();
-    boolean writeToDB();
-    boolean readFromDB();
 }
