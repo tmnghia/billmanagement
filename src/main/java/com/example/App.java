@@ -2,13 +2,16 @@ package com.example;
 
 import java.util.ArrayList;
 
+import com.example.controllers.BillController;
 import com.example.controllers.OrderController;
 import com.example.controllers.ProductRepoController;
+import com.example.models.Bill;
 import com.example.models.Drink;
 import com.example.models.Food;
 import com.example.models.Order;
 import com.example.models.Product;
 import com.example.models.Food.FoodType;
+import com.example.views.BillView;
 import com.example.views.OrderView;
 
 /**
@@ -88,5 +91,11 @@ public final class App {
         orderController.showOrders();
         orderController.removeOrderItem(food1.hashCode(), 3);
         orderController.showOrders();
+
+        System.out.println(order1);
+
+        Bill bill1 = new Bill(1, order1);
+        BillController billController = new BillController(bill1, new BillView());
+        billController.exportToCSV();
     }
 }

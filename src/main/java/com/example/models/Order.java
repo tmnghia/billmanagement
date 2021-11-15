@@ -10,7 +10,6 @@ public class Order implements Serializable {
     private ProductDAO productDAO = null;
     private Map<Integer, Integer> orderItems = null;
     private int id;
-    private double totalPrice = 0;
 
     public Order(int id) {
         orderItems = new HashMap<>();
@@ -33,7 +32,6 @@ public class Order implements Serializable {
         } else {
             orderItems.put(productID, quantity + currentQuantity);
         }
-        totalPrice += product.getPrice();
 
         return true;
     }
@@ -56,6 +54,12 @@ public class Order implements Serializable {
     }
 
     public double getTotalPrice() {
+        double totalPrice = 0;
+        for (Map.Entry<Integer, Integer> order : orderItems.entrySet()) {
+            double productPrice = productDAO.getProduct(order.getKey()).getPrice();
+            double itemTotalPrice = productPrice * order.getValue();
+            totalPrice += itemTotalPrice;
+        }
         return totalPrice;
     }
 
@@ -92,11 +96,26 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        String outputString  = "ID: " + id + "\n";
+        double itemPrice = 0;
+        int quantity = 0;
+        StringBuilder str = new StringBuilder();
+        str.append("Product, Unit Price, Quantity, Price");
+
         for (Map.Entry<Integer, Integer> item : orderItems.entrySet()) {
-            outputString += "Product ID: " + item.getKey() + " Quantity: " + item.getKey() + "\n";
+            Product product = productDAO.getProduct(item.getKey());
+            itemPrice = product.getPrice();
+            quantity = (int)item.getValue();
+
+            str.append("\n");
+            str.append(product.getName());
+            str.append(",");
+            str.append(itemPrice);
+            str.append(",");
+            str.append(quantity);
+            str.append(",");
+            str.append(quantity*itemPrice);
         }
 
-        return outputString;
+        return str.toString();
     }
 }

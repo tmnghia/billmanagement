@@ -21,6 +21,7 @@ public class OrderController {
     }
 
     public void showOrders() {
+        System.out.println("OrderController.showOrders()" + model.getTotalPrice());
         view.showOrder(model.getId(), model.getOrderItems());
     }
 }
