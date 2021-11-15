@@ -115,6 +115,8 @@ public class Order implements Serializable {
             str.append(",");
             str.append(quantity*itemPrice);
         }
+        str.append("\n,,,");
+        str.append(getTotalPrice());
 
         return str.toString();
     }
