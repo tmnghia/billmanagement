@@ -33,4 +33,31 @@ public class Drink extends Product {
     public void setDrinkType(DrinkType drinkType) {
         this.drinkType = drinkType;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" + "Type: " + drinkType;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 19;
+        int result = super.hashCode();
+        result = prime * result;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Drink other = (Drink) obj;
+        if (drinkType != other.drinkType)
+            return false;
+        return true;
+    }
 }

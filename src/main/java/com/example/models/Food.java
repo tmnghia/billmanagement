@@ -41,4 +41,26 @@ public class Food extends Product {
     public String toString() {
         return super.toString() + "\n" + "Type: " + foodType;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 18;
+        int result = super.hashCode();
+        result = prime * result;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Food other = (Food) obj;
+        if (foodType != other.foodType)
+            return false;
+        return true;
+    }
 }

@@ -6,14 +6,13 @@ import com.example.dao.ProductDAO;
 import com.example.interfaces.Repository;
 
 public class ProductRepo implements Repository<Product> {
-    final String PRODUCT_DB_NAME = "product.dat";
     private static ProductRepo instance = null;
     // ArrayList<Product> items = null;
     public ProductDAO dao = null;
 
     private ProductRepo() {
         // items = new ArrayList<>();
-        dao = ProductDAO.getInstance(PRODUCT_DB_NAME);
+        dao = ProductDAO.getInstance();
     }
 
     public static ProductRepo getInstance() {

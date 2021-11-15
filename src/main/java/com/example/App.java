@@ -2,11 +2,14 @@ package com.example;
 
 import java.util.ArrayList;
 
+import com.example.controllers.OrderController;
 import com.example.controllers.ProductRepoController;
 import com.example.models.Drink;
 import com.example.models.Food;
+import com.example.models.Order;
 import com.example.models.Product;
 import com.example.models.Food.FoodType;
+import com.example.views.OrderView;
 
 /**
  * Hello world!
@@ -59,11 +62,31 @@ public final class App {
 
         Food food1Updated = new Food(1, "food1 updated", "description", 10000, FoodType.MAIN_DISHES);
         controller.updateItem(food1, food1Updated);
-        
+
         System.out.println("List repo");
         productList = controller.getItems();
         for (Product product : productList) {
             System.out.println(product + "\n");
         }
+
+        controller.addItem(drink1);
+        System.out.println("List repo");
+        productList = controller.getItems();
+        for (Product product : productList) {
+            System.out.println(product + "\n");
+        }
+
+        Order order1 = new Order(1);
+        OrderController orderController = new OrderController(order1, new OrderView());
+        orderController.addOrderItem(drink1.hashCode(), 1);
+        orderController.showOrders();
+        orderController.addOrderItem(food1.hashCode(), 2);
+        orderController.showOrders();
+        orderController.addOrderItem(food1.hashCode(), 5);
+        orderController.showOrders();
+        orderController.addOrderItem(drink1.hashCode(), 1);
+        orderController.showOrders();
+        orderController.removeOrderItem(food1.hashCode(), 3);
+        orderController.showOrders();
     }
 }

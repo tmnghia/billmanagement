@@ -14,21 +14,20 @@ import com.example.models.Product;
 
 public class ProductDAO implements FileDAO {
 
-    private String dbPath;
+    private final String PRODUCT_DB_NAME = "product.dat";
     public static ProductDAO instance = null;
     private ArrayList<Product> productList = null;
 
-    private ProductDAO(String dbPath){
-        this.dbPath = dbPath;
+    private ProductDAO() {
         productList = new ArrayList<>();
         readFromFile();
     }
 
-    public static ProductDAO getInstance(String dbPath) {
+    public static ProductDAO getInstance() {
         if (instance == null) {
             synchronized (ProductDAO.class) {
                 if (instance == null) {
-                    instance = new ProductDAO(dbPath);
+                    instance = new ProductDAO();
                 }
             }
         }
@@ -39,7 +38,7 @@ public class ProductDAO implements FileDAO {
     public boolean addProduct(Product newProduct) {
         for (Product product : productList) {
             if (product.equals(newProduct)) {
-                System.err.println("Product " + newProduct + "\nalready exist!");
+                System.err.println("Product ID" + newProduct.getId() + "\nalready exist!");
                 return false;
             }
         }
@@ -48,6 +47,15 @@ public class ProductDAO implements FileDAO {
         System.out.println("ProductDAO.addProduct()\n" + newProduct);
 
         return true;
+    }
+
+    public Product getProduct(int productID) {
+        for (Product product : productList) {
+            if (product.hashCode() == productID) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public boolean updateProduct(Product oldProduct, Product newProduct) {
@@ -60,7 +68,7 @@ public class ProductDAO implements FileDAO {
                 return true;
             }
         }
-        System.err.println("Not found \n" + oldProduct);
+        System.err.println("Not found Product: " + oldProduct + "\n");
 
         return false;
     }
@@ -84,7 +92,7 @@ public class ProductDAO implements FileDAO {
         OutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
-            fos = new FileOutputStream(dbPath); 
+            fos = new FileOutputStream(PRODUCT_DB_NAME);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(productList);
         } catch (FileNotFoundException e) {
@@ -99,9 +107,11 @@ public class ProductDAO implements FileDAO {
         InputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            fis = new FileInputStream(dbPath);
+            fis = new FileInputStream(PRODUCT_DB_NAME);
             ois = new ObjectInputStream(fis);
             productList = (ArrayList<Product>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println("Nothing to read");
         } catch (Exception e) {
             e.printStackTrace();
         }
